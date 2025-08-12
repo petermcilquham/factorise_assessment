@@ -18,7 +18,7 @@ export default function Index() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fa732562',
+    backgroundColor: '#fdc29f62',
   },
   header: {
     flex: 1,
