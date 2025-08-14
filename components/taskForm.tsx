@@ -1,11 +1,12 @@
-import { StyleSheet, View, KeyboardAvoidingView } from 'react-native';
+import { StyleSheet, View, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { useState } from 'react';
 import { Input } from './input';
 import { TaskList } from './taskList';
 
 export interface Task {
   title: string;
-  description?: string;
+  description?: string | null;
+  priority: string | null;
 }
 
 export function TaskForm() {
@@ -13,9 +14,11 @@ export function TaskForm() {
 
   return (
     <View style={styles.taskForm}>
-      <KeyboardAvoidingView behavior='padding'>
-        <Input taskList={taskList} setTaskList={setTaskList}></Input>
-      </KeyboardAvoidingView>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <KeyboardAvoidingView behavior='padding'>
+          <Input taskList={taskList} setTaskList={setTaskList}></Input>
+        </KeyboardAvoidingView>
+      </TouchableWithoutFeedback>
       {taskList ? <TaskList taskList={taskList} /> : null}
     </View>
   );
