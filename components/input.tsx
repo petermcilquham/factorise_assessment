@@ -1,6 +1,7 @@
 import { StyleSheet, TextInput, View, Pressable, Text } from 'react-native';
 import { useState, useEffect, useRef } from 'react';
 import { Task } from './taskForm';
+import { PriorityDropDown } from './priorityDropDown';
 
 interface Errors {
   title?: string;
@@ -15,15 +16,17 @@ export function Input({ taskList, setTaskList }: TaskListProps) {
   // states and ref
   const [task, setTask] = useState<Task>({ title: '', description: '' } as Task);
   const [errors, setErrors] = useState<Errors>({} as Errors);
+  const [priorityValue, setPriorityValue] = useState(null);
   const isFormValidated = useRef<boolean>(false);
   isFormValidated.current = Object.keys(errors).length === 0;
   const inputRef = useRef<any>(null);
 
   // functions
   function handleSubmit() {
-    setTask({ title: '', description: '' });
+    setTask({ title: '', description: '', priority: '' });
     setErrors({});
     setTaskList([...taskList, task]);
+    setPriorityValue(null);
   }
   useEffect(() => {
     let errorMessage: Errors = {};
@@ -43,8 +46,8 @@ export function Input({ taskList, setTaskList }: TaskListProps) {
         onChangeText={(text) => setTask({ ...task, title: text })}
         placeholder='Task title'
       />
-      <TextInput multiline={true} numberOfLines={4} style={styles.input} value={task.description} onChangeText={(text) => setTask({ ...task, description: text })} placeholder='Task description' />
-      {/* <TextInput style={styles.input} value={task.description} onChangeText={(text) => setTask({ ...task, description: text })} placeholder='Task description' /> */}
+      <TextInput multiline={true} numberOfLines={4} style={styles.input} value={task.description!} onChangeText={(text) => setTask({ ...task, description: text })} placeholder='Task description' />
+      <PriorityDropDown onSelect={(val: string) => setTask({ ...task, priority: val })} value={priorityValue} setValue={setPriorityValue} />
       {task.title.length !== 0 && !isFormValidated.current ? <Text style={styles.errorText}>{errors.title}</Text> : null}
       {task.description!.length !== 0 && !isFormValidated.current && errors.description! ? <Text style={styles.errorText}>{errors.description}</Text> : null}
       <Pressable onPress={handleSubmit} style={[styles.submitButton, !isFormValidated.current ? styles.disabled : null]} disabled={!isFormValidated.current}>
@@ -77,7 +80,7 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
   },
   submitButton: {
-    borderColor: 'black',
+    borderColor: '#000',
     borderStyle: 'solid',
     borderWidth: 1,
     width: 120,
