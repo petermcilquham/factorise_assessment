@@ -1,11 +1,16 @@
 import { StyleSheet, FlatList, View, Text } from 'react-native';
-import { Task } from './taskForm';
+import { useContext } from 'react';
+import { TaskListContext } from '@/contexts/taskContexts';
 
-export function TaskList({ taskList }: { taskList: Task[] }) {
+/// This function returns a FlatList with taskList data, sorted by priority in ascending order
+export function TaskList() {
+  /// useContext
+  const { taskList } = useContext(TaskListContext);
+
   return (
     <FlatList
       style={styles.listContainer}
-      data={taskList.sort((a, b) => (a.priority === null ? 1 : b.priority === null ? -1 : a.priority! > b.priority! ? 1 : -1))}
+      data={taskList.sort((a: { priority: number }, b: { priority: number }) => (a.priority < b.priority ? -1 : 1))}
       renderItem={({ item }) => {
         return (
           <View style={styles.listItem}>
@@ -14,7 +19,8 @@ export function TaskList({ taskList }: { taskList: Task[] }) {
                 <Text style={styles.listItemHeader}>Title: </Text>
                 {item.title}
               </Text>
-              {item.priority && (
+              {/* only show priority text if priority value is under 4 ie. if priority has not been selected; don't show it */}
+              {item.priority < 4 && (
                 <Text style={styles.priorityText}>
                   <Text style={[styles.priorityText, { fontWeight: 'bold' }]}>Priority: </Text>
                   {item.priority}
