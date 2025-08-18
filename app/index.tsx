@@ -1,5 +1,5 @@
 import { Text, View, StyleSheet, SafeAreaView, StatusBar } from 'react-native';
-import { TaskForm } from '@/components/taskForm';
+import { Tasks } from '@/components/tasks';
 
 export default function Index() {
   return (
@@ -9,7 +9,7 @@ export default function Index() {
         <Text style={styles.headerText}>Task Form</Text>
       </View>
       <View style={styles.body}>
-        <TaskForm />
+        <Tasks />
       </View>
     </SafeAreaView>
   );
