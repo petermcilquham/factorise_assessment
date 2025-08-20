@@ -16,6 +16,10 @@ The app is created with Expo.
    npm install expo
    ```
 
+   ```bash
+   npx expo install jest-expo jest @types/jest "--" --dev
+   ```
+
 2. Start the app
 
    ```bash
